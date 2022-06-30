@@ -48,4 +48,3 @@ class Card:
     def get_suit(self):
         return self.suit
 
-
