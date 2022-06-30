@@ -1,1 +1,1 @@
-Given a list of $n$ Card objects such that $5 \leq n  \leq 52$, this program will output the best possible 5 card Poker hand.
+Given a list of $n$ Card objects such that $5 \leq n  \leq 52$, this helper function will output the best possible 5 card Poker hand and its hierarchical hand ranking as a tuple.
