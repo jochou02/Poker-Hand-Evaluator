@@ -33,7 +33,7 @@ class Card:
         self.suit = suit
 
     def __lt__(self, other_card):
-        rank_order = '2345678910JQKA'
+        rank_order = '23456789TJQKA'
         if self.rank == other_card.rank:
             suit_order = 'DiamondsClubsHeartsSpades'
             return suit_order.find(self.suit) < suit_order.find(other_card.suit)
