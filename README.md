@@ -1,0 +1,1 @@
+Given seven cards, this program will evaluate the best five card hand possible.
