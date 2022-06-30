@@ -1,4 +1,3 @@
-from enum import unique
 from card import Card
 
 def evaluate(list_of_cards):
