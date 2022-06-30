@@ -1,1 +1,1 @@
-Given a list of n cards (n >= 5), this program will evaluate the best five card hand possible.
+Given a list of $n$ Card objects such that $5 \leq n  \leq 52$, this program will output the best possible 5 card Poker hand.
