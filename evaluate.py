@@ -25,6 +25,9 @@ def evaluate(list_of_cards):
         'Quads': []
     }
 
+    # Extract ranks, without duplicates
+    rank_only = []
+
     suits = {
         'Diamonds': [],
         'Clubs': [],
@@ -36,6 +39,9 @@ def evaluate(list_of_cards):
     for card in list_of_cards:
         r = card.get_rank()
         s = card.get_suit()
+
+        if r not in rank_only:
+            rank_only.append(r)
 
         if r in ranks['Singles']:
             ranks['Doubles'].append(ranks['Singles'].pop())
@@ -49,42 +55,40 @@ def evaluate(list_of_cards):
         suits[s].append(r)
         
     # One pair
-    if len(ranks['Doubles']) == 1:
+    if len(ranks['Doubles']) > 0:
         hand_rankings[9] = True
     # Two pair
-    elif len(ranks['Doubles']) > 1:
+    if len(ranks['Doubles']) > 1:
         hand_rankings[8] = True
     # Three of a kind
     if len(ranks['Triples']) > 0:
         hand_rankings[7] = True
-    # TODO: Straight
-    if rank_order.find(ranks[4]) - rank_order.find(ranks[0]) == 4:
-        hand_rankings[6] = 1
+    # Straight
+    for i in range(len(rank_only) - 4):
+        pos = rank_order.find(rank_only[i])
+        if rank_order.find(rank_only[i + 1]) == pos + 1 and \
+            rank_order.find(rank_only[i + 2]) == pos + 2 and \
+            rank_order.find(rank_only[i + 3]) == pos + 3 and \
+            rank_order.find(rank_only[i + 4]) == pos + 4:
+            hand_rankings[6] = True
     # Flush
     if max([len(i) for i in suits.values()]) >= 5:
         hand_rankings[5] = True
-    # TODO: Full House
-    
+    # Full House
+    if (hand_rankings[7] and hand_rankings[9]) or len(ranks['Triples']) > 1:
+        hand_rankings[4] = True
     # Quads
     if len(ranks['Quads']) > 0:
         hand_rankings[3] = True
     # Straight flush
     if hand_rankings[6] and hand_rankings[5]:
         hand_rankings[2] = True
-    # TODO: Royal flush
-    if hand_rankings[2] and ranks[4] == 'K':
-        hand_rankings[1] = True
+    # Royal flush
+    if hand_rankings[2] and 'A' in rank_only and 'T' in rank_only:
+        if rank_order.find('T') + 4 == rank_order.find('A'):
+            hand_rankings[1] = True
 
-
+    # Return best hand
     for i in hand_rankings.items():
-        if i[1] == 1:
+        if i[1]:
             return i[0]
-
-    
-card1 = Card("A", "Spades")
-card2 = Card("K", "Diamonds")
-card3 = Card("Q", "Spades")
-card4 = Card("J", "Spades")
-card5 = Card("T", "Spades")
-
-print(evaluate([card1, card2, card3, card4, card5]))
